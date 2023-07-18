@@ -7,8 +7,9 @@ phases:
   pre_build:
     commands:
       # run 'npm install' using versions in package-lock.json
-      - npm cache clear --force
-      - npm ci
+      # - npm cache clear --force
+      # - npm ci
+      - npm install
   build:
     commands:
       - npm run build
