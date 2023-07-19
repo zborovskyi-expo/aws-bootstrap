@@ -1,4 +1,4 @@
-#!/bin/bash
+source aws_credentials.sh
 
 STACK_NAME=awsbootstrap
 REGION=us-east-1 
@@ -35,7 +35,8 @@ aws cloudformation deploy \
   --template-file main.yml \
   --no-fail-on-empty-changeset \
   --capabilities CAPABILITY_NAMED_IAM \
-  --parameter-overrides EC2InstanceType=$EC2_INSTANCE_TYPE \
+  --parameter-overrides \
+    EC2InstanceType=$EC2_INSTANCE_TYPE \
     GitHubOwner=$GH_OWNER \
     GitHubRepo=$GH_REPO \
     GitHubBranch=$GH_BRANCH \
@@ -46,5 +47,5 @@ aws cloudformation deploy \
 if [ $? -eq 0 ]; then
   aws cloudformation list-exports \
     --profile awsbootstrap \
-    --query "Exports[?Name=='InstanceEndpoint'].Value" 
+    --query "Exports[?starts_with(Name,'InstanceEndpoint')].Value"
 fi
